@@ -9,6 +9,97 @@
        </style>
      </head>
      <body>
-       <p class="p1">Hello, World!</p>
+       ```html
+<body class="bg-gray-900 text-white min-h-screen flex flex-col">
+  <!-- Контейнер -->
+  <div class="container mx-auto p-4">
+    <!-- Приветствие -->
+    <div class="text-center mb-6">
+      <h1 class="text-2xl font-bold animate-bounce">Привет, <span id="user-name">[Username]</span>!</h1>
+      <p class="text-gray-400">Добро пожаловать в твоё пространство!</p>
+    </div>
+
+    <!-- Вкладки -->
+    <div class="flex justify-around mb-4 border-b border-gray-700">
+      <button class="tab-btn px-4 py-2 text-lg font-semibold text-gray-300 hover:text-white focus:outline-none active-tab" data-tab="projects">Проекты</button>
+      <button class="tab-btn px-4 py-2 text-lg font-semibold text-gray-300 hover:text-white focus:outline-none" data-tab="comments">Комментарии</button>
+      <button class="tab-btn px-4 py-2 text-lg font-semibold text-gray-300 hover:text-white focus:outline-none" data-tab="contacts">Контакты</button>
+    </div>
+
+    <!-- Контент вкладок -->
+    <div id="projects" class="tab-content active fade-in">
+      <h2 class="text-xl font-semibold mb-4">Твои проекты</h2>
+      <div class="space-y-4">
+        <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
+          <h3 class="text-lg font-bold">Проект 1</h3>
+          <p class="text-gray-400">Статус: <span class="text-green-500">Готово</span></p>
+          <a href="https://disk.yandex.ru/link" target="_blank" class="text-blue-400 hover:underline">Скачать результат</a>
+        </div>
+        <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
+          <h3 class="text-lg font-bold">Проект 2</h3>
+          <p class="text-gray-400">Статус: <span class="text-yellow-500">В работе</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div id="comments" class="tab-content fade-in hidden">
+      <h2 class="text-xl font-semibold mb-4">Комментарии по проекту</h2>
+      <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
+        <div class="mb-4">
+          <p class="text-gray-300"><strong>Менеджер:</strong> Всё идёт по плану, ждём фидбэк!</p>
+          <p class="text-gray-500 text-sm">12:30, 10.10.2023</p>
+        </div>
+        <textarea class="w-full p-2 bg-gray-700 rounded-lg text-white" placeholder="Напиши комментарий..."></textarea>
+        <button class="mt-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg">Отправить</button>
+      </div>
+    </div>
+
+    <div id="contacts" class="tab-content fade-in hidden">
+      <h2 class="text-xl font-semibold mb-4">Контакты</h2>
+      <div class="space-y-4">
+        <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg" onclick="window.Telegram.WebApp.openTelegramLink('https://t.me/YourManagerUsername')">Написать менеджеру</button>
+        <button class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg" onclick="window.Telegram.WebApp.openLink('tel:+1234567890')">Позвонить</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Скрипт для переключения вкладок и имени пользователя -->
+  <script>
+    // Получение имени пользователя из Telegram WebApp
+    const userName = window.Telegram.WebApp.initDataUnsafe?.user?.first_name || 'Гость';
+    document.getElementById('user-name').textContent = userName;
+
+    // Переключение вкладок
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        tabButtons.forEach(btn => btn.classList.remove('active-tab', 'text-white'));
+        tabButtons.forEach(btn => btn.classList.add('text-gray-300'));
+        tabContents.forEach(content => content.classList.add('hidden'));
+
+        button.classList.add('active-tab', 'text-white');
+        const tabId = button.getAttribute('data-tab');
+        document.getElementById(tabId).classList.remove('hidden');
+        document.getElementById(tabId).classList.add('active', 'fade-in');
+      });
+    });
+  </script>
+
+  <!-- Стили для анимации -->
+  <style>
+    .fade-in {
+      animation: fadeIn 0.3s ease-in;
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    .active-tab {
+      border-bottom: 2px solid white;
+    }
+  </style>
+</body>
      </body>
      </html>
